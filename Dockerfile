@@ -4,6 +4,7 @@ FROM trzeci/emscripten:latest
 RUN apt-get -y install bzip2 \
     wget \
     bzip2 \
+    sed \
     unzip
 
 RUN cd /usr
@@ -15,9 +16,10 @@ RUN wget https://github.com/opencv/opencv/archive/3.4.0.zip && \
     python ./platforms/js/build_js.py build_wasm --build_wasm
 
 # Install dlib
-RUN wget http://dlib.net/files/dlib-19.6.tar.bz2 && \
-    tar xvf dlib-19.6.tar.bz2 && \
-    cd dlib-19.6/ && \
+RUN wget http://dlib.net/files/dlib-19.17.tar.bz2 && \
+    tar xvf dlib-19.17.tar.bz2 && \
+    cd dlib-19.17/ && \
+    sed -i '404 d' dlib/image_processing/shape_predictor.h
     mkdir build && \
     cd build && \
     cmake .. && \
